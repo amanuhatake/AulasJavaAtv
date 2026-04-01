@@ -22,17 +22,22 @@ public class Main4 {
         carro1.modelo = "algum";
         carro1.portas = 4; 
 
-        Moto moto1 = new Carro();
+        Moto moto1 = new Moto();
 
         moto1.marca = "Honda";
-        moto01.modelo = "POP100";
-        moto01.cilindradas = 1000;
+        moto1.modelo = "POP100";
+        moto1.cilindradas = 1000;
 
         
-        System.out.println("Marca: " + veiculo1.nome);
-        System.out.println("Modelo: " + veiculo1.modelo);
+        System.out.println("Marca: " + carro1.marca);
+        System.out.println("Modelo: " + carro1.modelo);
+        System.out.println("Portas: " + carro1.portas);
+
+        System.out.println("Marca: " + moto1.marca);
+        System.out.println("Modelo: " + moto1.modelo);
+        System.out.println("Cilindro: " + moto1.cilindradas);
     }
 
 
-    }
 }
+
