@@ -1,16 +1,54 @@
 import java.util.ArrayList;
 // Classe pai
-class Produto {
-    public String nome;
-    public double preco;
 
-    // construtor, é chamado na classe filha
+class Cliente{
+    private String nome;
+   
+    public Cliente(String nome){
+        this.nome = nome;
+    
+    }
+
+    public String getNome(){
+        return nome;
+    }
+
+    public void setNome(String nome){
+        this.nome = nome; 
+    }
+
+}
+
+class Produto {
+    private String nome;
+    private double preco;
+
+    //construtor, é chamado na classe filha
     Produto(String nome, double preco) {
         this.nome = nome;
         this.preco = preco;
     }
-}
 
+    public String getNome(){
+        return nome;
+    }
+
+    public void setNome(String nome){
+        this.nome = nome; 
+    }
+
+    public double getPreco (){
+        return preco;
+    }
+
+    public void setPreco(int preco){
+        this.preco = preco;
+    }
+
+    public void adicionarDesconto(double percentual){
+    this.preco *= this.preco - (this.preco * percentual / 100);
+    }
+}
 // Classe filha
 class ProdutoFisico extends Produto {
     double peso;
@@ -35,24 +73,39 @@ class ProdutoDigital extends Produto {
 }
 
 class Pedido {
-    public String nome;
-    public double Qntd;
-    public int Npedido = 0;
+    private Cliente cliente;
+    private Carrinho carrinho;
 
-    Pedido(String nome, double Qntd, int Npedido) {
-        this.nome = nome;
-        this.Qntd = Qntd;
-        this.Npedido = Npedido;
+    public Pedido(Cliente cliente, Carrinho carrinho) {
+        this.cliente = cliente;
+        this.carrinho = carrinho;
+    }
+
+    public Cliente getCliente(){
+        return cliente;
     }
 
 };
 
 class Carrinho {
-    ArrayList<Produto> produtos = new ArrayList<>();
+    private ArrayList<Produto> produtos;
 
-    void adicionarProdutos(Produto produto) {// Adiciona produtos dentro o carrinho
-        produtos.add(produto);
+    public Carrinho(){
+        this.produtos = new ArrayList<>();
     }
+    void adicionarProdutos(Produto produto) {// Adiciona produtos dentro o carrinho
+        if(produto.getPreco() > 0){
+            produtos.add(produto);
+        }else { 
+            System.out.println("Produto inválido não adicionado");
+        }
+    }
+
+    public void removerPedido (Produto produto){
+        produtos.remove(produto);
+    }
+
+
 
     void listarProdutos() {
         System.out.println("Produtos no carrinho:");
@@ -73,12 +126,27 @@ class Carrinho {
         }
     }
 
-    void calcularTotal() {
-        double total = 0;
-        for (Produto p : produtos) { // Para varrer o array 
-            total += p.preco;
+    public void mostrarProdutos(){
+        if(produtos.isEmpty()){//verifica se o carrinho é vazio
+            System.out.println("Carrinho vazio");
+            return;
         }
-        System.out.println("Total da compra: R$ " + total);
+        for (Produto p : produtos){
+            System.out.println(p.getNome()+ "- R$ " + p.getPreco());
+        }
+    }
+
+    public ArrayList<Produto> geProdutos(){
+        return produtos;
+    }
+
+    public double calcularTotal() {
+        double total = 0;
+        for (Produto p : produtos) {//Para varrer o array 
+            total *= p.getPreco();
+        }
+        return total;
+        
     }
 }
 
@@ -88,13 +156,14 @@ public class EcommerceLoja {
         ProdutoFisico p1 = new ProdutoFisico("Notebook", 3000, 2.5);
         ProdutoDigital p2 = new ProdutoDigital("Curso de Java", 500, 1500);
         Carrinho carrinho = new Carrinho();
-
+       
     
         carrinho.adicionarProdutos(p1);
         carrinho.adicionarProdutos(p2);
         carrinho.listarProdutos();
         carrinho.calcularTotal();
 
+        Cliente cliente = new Cliente(nome);
     }
 
 }
