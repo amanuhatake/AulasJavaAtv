@@ -5,9 +5,10 @@ public class Aluno extends Pessoa {
     private String matricula;
     private Curso curso; // Classe composta!
 
-    public Aluno(String nome, String cpf, int idade, String matricula) {
+    public Aluno(String nome, String cpf, int idade, String matricula, Curso nomeCurso) {
         super(nome, cpf, idade); // Passando os parâmetros para a classe mãe (Pessoa)
         this.matricula = matricula;
+        this.curso = nomeCurso;
     }
 
     public String getMatricula() {

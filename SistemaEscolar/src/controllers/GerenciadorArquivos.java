@@ -36,7 +36,7 @@ public class GerenciadorArquivos {
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(";");
                 if (dados.length == 4) {
-                    lista.add(new Aluno(dados[0], dados[1], Integer.parseInt(dados[2]), dados[3]));
+                    lista.add(new Aluno(dados[0], dados[1], Integer.parseInt(dados[2]), dados[3],null));
                 }
             }
         } catch (IOException | NumberFormatException e) {
@@ -81,7 +81,7 @@ public class GerenciadorArquivos {
     public static void salvarCursos(ArrayList<Curso> lista) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_CURSOS))) {
             for (Curso c : lista) {
-                bw.write(c.getNome() + ";" + c.getProfessorResponsavel().getCpf());
+                bw.write(c.getNomeCurso() + ";" + c.getProfessor().getCpf());
                 bw.newLine();
             }
         } catch (IOException e) {

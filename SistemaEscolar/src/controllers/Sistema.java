@@ -15,7 +15,7 @@ public class Sistema {
     private List<Curso> cursos;
     private List<Chamada> chamadas;
     private List<Usuario> usuarios;
-    
+
     // Armazena quem é o usuário que está logado no momento
     private Usuario usuarioLogado;
 
@@ -24,8 +24,8 @@ public class Sistema {
         // Carrega os dados persistidos em arquivo de texto
         this.alunos = GerenciadorArquivos.carregarAlunos();
         this.professors = GerenciadorArquivos.carregarProfessores();
-        this.cursos = GerenciadorArquivos.carregarCursos(this.professors); 
-        
+        this.cursos = GerenciadorArquivos.carregarCursos(this.professors);
+
         // Inicializa as demais listas na memória
         this.chamadas = new ArrayList<>();
         this.usuarios = new ArrayList<>();
@@ -35,16 +35,63 @@ public class Sistema {
         this.usuarios.add(new Usuario("admin", "1234"));
     }
 
-  
     // Regra de Negócio: Controlar o processo de Login de forma simplificada
     public boolean realizarLogin(String login, String senha) {
         for (Usuario u : usuarios) {
             if (u.getLogin().equals(login)) {
-                // Deixa o próprio objeto Usuario controlar os erros internamente
-                return u.autenticar(login, senha);
+                boolean autenticado = u.autenticar(login, senha);
+                if (autenticado) {
+                    this.usuarioLogado = u; // define que está logado!
+                }
+                return autenticado;
+
             }
         }
         System.out.println("Usuário não cadastrado no sistema.");
+        return false;
+    }
+
+    public Usuario buscarUsuario(String login) {
+        for (Usuario u : usuarios) {
+            if (u.getLogin().equals(login))
+                return u;
+        }
+        return null;
+    }
+
+    public Aluno buscarAlunoPorMatricula(String matricula) {
+        for (Aluno a : alunos) {
+            if (a.getMatricula().equals(matricula))
+                return a;
+        }
+        return null;
+    }
+
+    public Aluno buscarAlunoPorNome(String nome) {
+        for (Aluno a : alunos) {
+            if (a.getNome().equalsIgnoreCase(nome))
+                return a;
+        }
+        return null;
+    }
+
+    public void alterarAluno(String matricula, String novoNome, int novaIdade, String novoCurso) { //ajustar isso aqui
+        Aluno aluno = buscarAlunoPorMatricula(matricula);
+        if (aluno == null) {
+            System.out.println("Aluno não encontrado!");
+            return;
+        }
+        aluno.setNome(novoNome);
+        aluno.setIdade(novaIdade);
+        aluno.setCurso(novoCurso);
+        GerenciadorArquivos.salvarAlunos(new ArrayList<>(alunos));
+        System.out.println("Aluno alterado com sucesso!");
+    }
+
+    public boolean redefinirSenha(String login, String novaSenha) {
+        Usuario u = buscarUsuario(login);
+        if (u != null)
+            return u.cadastrarNovaSenha(novaSenha);
         return false;
     }
 
