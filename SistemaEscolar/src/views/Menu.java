@@ -96,6 +96,8 @@ public class Menu {
                         break;
                     case 7:
                         menuAlterarAluno();
+                        break;
+                    case 0:
                         sistema.realizarLogout();
                         System.out.println("Obrigado por utilizar o sistema!");
                         break;
