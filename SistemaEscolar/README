@@ -26,3 +26,8 @@ SistemaEscolar/
     ├── views/
     │   └── Menu.java                # Interface textual que controla as telas e processa as entradas do terminal
     └── Main.java                    # Ponto de entrada responsável por inicializar a aplicação
+
+
+Autores: 
+Emanuelle da Silva 
+Mateus Albertini
