@@ -21,7 +21,7 @@ public class Menu {
         this.scanner = new Scanner(System.in);
     }
 
-    // Ponto de entrada do menu
+    
     public void iniciar() {
         System.out.println("=======================================");
         System.out.println("  BEM-VINDO AO SISTEMA ESCOLAR POO     ");
@@ -31,7 +31,7 @@ public class Menu {
         executarMenuPrincipal();
     }
 
-    // Tela de Login obrigatória
+    
     private void executarMenuLogin() {
         while (sistema.getUsuarioLogado() == null) {
             System.out.println("\n--- TELA DE LOGIN ---");
@@ -59,7 +59,7 @@ public class Menu {
         }
     }
 
-    // Menu Principal com as opções solicitadas no PDF
+    
     private void executarMenuPrincipal() {
         int opcao = -1;
         while (opcao != 0) {

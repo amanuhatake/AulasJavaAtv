@@ -9,14 +9,14 @@ public class Chamada {
     private List<Aluno> alunosPresentes;
     private List<Aluno> alunosAusentes;
 
-    // Construtor
+   
     public Chamada(LocalDate data) {
         this.data = data;
         this.alunosPresentes = new ArrayList<>();
         this.alunosAusentes = new ArrayList<>();
     }
 
-    // Métodos para registrar a presença
+  
     public void registrarPresenca(Aluno aluno) {
         this.alunosPresentes.add(aluno);
     }
@@ -25,7 +25,7 @@ public class Chamada {
         this.alunosAusentes.add(aluno);
     }
 
-    // Getters e Setters
+    
     public LocalDate getData() {
         return data;
     }

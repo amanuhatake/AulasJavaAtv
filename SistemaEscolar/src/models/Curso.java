@@ -3,8 +3,7 @@ package models;
 public class Curso {
 
     private String nomeCurso;
-    private Professor professor; // Se o Professor.java estiver salvo e sem erros, isso aqui limpa na hora!
-
+    private Professor professor; 
     public Curso(String nomeCurso, Professor professor) {
         this.nomeCurso = nomeCurso;
         this.professor = professor;
@@ -28,7 +27,6 @@ public class Curso {
 
     @Override
     public String toString() {
-        // Uma segurança: se o curso for criado sem professor, não quebra o sistema
         String nomeProfessor = (professor != null) ? professor.getNome() : "Sem professor atribuído";
         return "Curso: " + nomeCurso + " | Professor Responsável: " + nomeProfessor;
     }

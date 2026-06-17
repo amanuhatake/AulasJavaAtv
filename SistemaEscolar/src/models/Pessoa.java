@@ -3,8 +3,8 @@ package models;
 public abstract class Pessoa{
 
     private String nome;
-    private String cpf; // Trocado de idade para CPF, muito mais realista!
-    private int idade;  // Se quiser, pode manter a idade junto para fins de relatório
+    private String cpf; 
+    private int idade;  
 
     public Pessoa(String nome, String cpf, int idade) {
         this.nome = nome;

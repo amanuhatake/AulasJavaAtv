@@ -5,10 +5,10 @@ import interfaces.Cadastravel;
 public class Aluno extends Pessoa implements Cadastravel {
 
     private String matricula;
-    private Curso curso; // Classe composta!
+    private Curso curso; 
 
     public Aluno(String nome, String cpf, int idade, String matricula, Curso nomeCurso) {
-        super(nome, cpf, idade); // Passando os parâmetros para a classe mãe (Pessoa)
+        super(nome, cpf, idade); 
         this.matricula = matricula;
         this.curso = nomeCurso;
     }
@@ -29,13 +29,12 @@ public class Aluno extends Pessoa implements Cadastravel {
         this.curso = curso;
     }
 
-    // Polimorfismo: Implementando o método abstrato obrigatório de Pessoa
     @Override
     public void gerarRelatorio() {
         System.out.println("====== RELATÓRIO DO ALUNO ======");
-        System.out.println(super.toString()); // Imprime Nome, CPF e Idade
+        System.out.println(super.toString()); 
         System.out.println("Matrícula: " + this.matricula);
-        // Verifica se o aluno está matriculado em algum curso para não dar erro no sistema
+        
         if (this.curso != null) {
             System.out.println("Curso: " + this.curso.getNomeCurso());
         } else {
@@ -44,7 +43,7 @@ public class Aluno extends Pessoa implements Cadastravel {
         System.out.println("================================\n");
     }
 
-    // toString() obrigatório pelo PDF usando o super.toString()
+    
     @Override
     public String toString() {
         String nomeCurso = (curso != null) ? curso.getNomeCurso() : "Sem curso";
@@ -70,6 +69,6 @@ public class Aluno extends Pessoa implements Cadastravel {
 
     @Override
     public String getId() {
-        return matricula; // matrícula é o identificador do aluno
+        return matricula; 
     }
 }

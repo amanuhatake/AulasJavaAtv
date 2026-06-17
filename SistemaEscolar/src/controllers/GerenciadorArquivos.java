@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import models.Aluno;
-import models.Professor;
 import models.Curso;
+import models.Professor;
 
 public class GerenciadorArquivos {
 
@@ -13,7 +13,6 @@ public class GerenciadorArquivos {
     private static final String FILE_PROFESSORES = "professores.txt";
     private static final String FILE_CURSOS = "cursos.txt";
 
-    // Salva a lista de alunos
     public static void salvarAlunos(ArrayList<Aluno> lista) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_ALUNOS))) {
             for (Aluno a : lista) {
@@ -25,7 +24,7 @@ public class GerenciadorArquivos {
         }
     }
 
-    // Carrega os alunos
+  
     public static ArrayList<Aluno> carregarAlunos() {
         ArrayList<Aluno> lista = new ArrayList<>();
         File file = new File(FILE_ALUNOS);
@@ -45,7 +44,7 @@ public class GerenciadorArquivos {
         return lista;
     }
 
-    // Salva a lista de professores
+   
     public static void salvarProfessores(ArrayList<Professor> lista) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PROFESSORES))) {
             for (Professor p : lista) {
@@ -57,7 +56,7 @@ public class GerenciadorArquivos {
         }
     }
 
-    // Carrega os professores
+  
     public static ArrayList<Professor> carregarProfessores() {
         ArrayList<Professor> lista = new ArrayList<>();
         File file = new File(FILE_PROFESSORES);
@@ -77,7 +76,7 @@ public class GerenciadorArquivos {
         return lista;
     }
 
-    // Salva a lista de cursos
+  
     public static void salvarCursos(ArrayList<Curso> lista) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_CURSOS))) {
             for (Curso c : lista) {
@@ -89,7 +88,7 @@ public class GerenciadorArquivos {
         }
     }
 
-    // Carrega os cursos vinculando-os aos professores
+    
     public static ArrayList<Curso> carregarCursos(List<Professor> listaProfessores) {
         ArrayList<Curso> lista = new ArrayList<>();
         File file = new File(FILE_CURSOS);

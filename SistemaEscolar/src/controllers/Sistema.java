@@ -10,39 +10,39 @@ import models.Usuario;
 
 public class Sistema {
 
-    // Listas que vão armazenar os dados do sistema em memória
+    
     private List<Aluno> alunos;
     private List<Professor> professors;
     private List<Curso> cursos;
     private List<Chamada> chamadas;
     private List<Usuario> usuarios;
 
-    // Armazena quem é o usuário que está logado no momento
+    
     private Usuario usuarioLogado;
 
-    // Construtor: Inicializa as listas e carrega os arquivos do disco
+    
     public Sistema() {
-        // Carrega os dados persistidos em arquivo de texto
+       
         this.alunos = GerenciadorArquivos.carregarAlunos();
         this.professors = GerenciadorArquivos.carregarProfessores();
         this.cursos = GerenciadorArquivos.carregarCursos(this.professors);
 
-        // Inicializa as demais listas na memória
+       
         this.chamadas = new ArrayList<>();
         this.usuarios = new ArrayList<>();
         this.usuarioLogado = null;
 
-        // Criando o usuário administrador padrão solicitado para testes
+        
         this.usuarios.add(new Usuario("admin", "1234"));
     }
 
-    // Regra de Negócio: Controlar o processo de Login de forma simplificada
+   
     public boolean realizarLogin(String login, String senha) {
         for (Usuario u : usuarios) {
             if (u.getLogin().equals(login)) {
                 boolean autenticado = u.autenticar(login, senha);
                 if (autenticado) {
-                    this.usuarioLogado = u; // define que está logado!
+                    this.usuarioLogado = u; 
                 }
                 return autenticado;
 
@@ -111,25 +111,25 @@ public class Sistema {
         return false;
     }
 
-    // Retorna o usuário logado para a View saber o status
+    
     public Usuario getUsuarioLogado() {
         return usuarioLogado;
     }
 
-    // Desloga o usuário atual
+    
     public void realizarLogout() {
         this.usuarioLogado = null;
         System.out.println("Sessão encerrada com sucesso.");
     }
 
-    // --- MÉTODOS DE CADASTRO COM VALIDAÇÃO DE REGRA DE NEGÓCIO ---
+    
     public void cadastrarAluno(Aluno aluno) {
 
         if (!aluno.validar()) {
             return;
         }
 
-        // REGRA DO PDF: Validação para impedir CPFs duplicados
+       
         for (Aluno a : alunos) {
             if (a.getCpf().equals(aluno.getCpf())) {
                 System.out.println("Erro: Já existe um aluno cadastrado com este CPF!");
@@ -146,7 +146,7 @@ public class Sistema {
             return;
         }
 
-        // REGRA DO PDF: Validação para impedir CPFs duplicados
+        
         for (Professor p : professors) {
             if (p.getCpf().equals(professor.getCpf())) {
                 System.out.println("Erro: Já existe um professor cadastrado com este CPF!");
@@ -169,7 +169,7 @@ public class Sistema {
         System.out.println("Chamada registrada com sucesso!");
     }
 
-    // --- MÉTODOS DE CONSULTA (Serão usados nos Relatórios) ---
+    
     public List<Aluno> getAlunos() {
         return alunos;
     }
