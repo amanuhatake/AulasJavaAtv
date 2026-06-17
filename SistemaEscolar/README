@@ -25,4 +25,4 @@ SistemaEscolar/
     │   └── Usuario.java             # Modelo destinado a armazenar credenciais, estados e históricos de logins
     ├── views/
     │   └── Menu.java                # Interface textual que controla as telas e processa as entradas do terminal
-    └── Main.java                    # Ponto de entrada (Bootstrap) responsável por inicializar a aplicação
+    └── Main.java                    # Ponto de entrada responsável por inicializar a aplicação
