@@ -9,6 +9,7 @@ import models.Professor;
 import models.Usuario;
 
 public class Sistema {
+
     // Listas que vão armazenar os dados do sistema em memória
     private List<Aluno> alunos;
     private List<Professor> professors;
@@ -53,29 +54,32 @@ public class Sistema {
 
     public Usuario buscarUsuario(String login) {
         for (Usuario u : usuarios) {
-            if (u.getLogin().equals(login))
+            if (u.getLogin().equals(login)) {
                 return u;
+            }
         }
         return null;
     }
 
     public Aluno buscarAlunoPorMatricula(String matricula) {
         for (Aluno a : alunos) {
-            if (a.getMatricula().equals(matricula))
+            if (a.getMatricula().equals(matricula)) {
                 return a;
+            }
         }
         return null;
     }
 
     public Aluno buscarAlunoPorNome(String nome) {
         for (Aluno a : alunos) {
-            if (a.getNome().equalsIgnoreCase(nome))
+            if (a.getNome().equalsIgnoreCase(nome)) {
                 return a;
+            }
         }
         return null;
     }
 
-    public void alterarAluno(String matricula, String novoNome, int novaIdade, String novoCurso) { //ajustar isso aqui
+    public void alterarAluno(String matricula, String novoNome, int novaIdade, Curso novoCurso) {
         Aluno aluno = buscarAlunoPorMatricula(matricula);
         if (aluno == null) {
             System.out.println("Aluno não encontrado!");
@@ -88,10 +92,22 @@ public class Sistema {
         System.out.println("Aluno alterado com sucesso!");
     }
 
+    public void excluirAluno(String matricula) {
+        Aluno aluno = buscarAlunoPorMatricula(matricula);
+        if (aluno == null) {
+            System.out.println("Aluno não encontrado!");
+            return;
+        }
+        alunos.remove(aluno);
+        GerenciadorArquivos.salvarAlunos(new ArrayList<>(alunos));
+        System.out.println("Aluno removido com sucesso!");
+    }
+
     public boolean redefinirSenha(String login, String novaSenha) {
         Usuario u = buscarUsuario(login);
-        if (u != null)
+        if (u != null) {
             return u.cadastrarNovaSenha(novaSenha);
+        }
         return false;
     }
 
@@ -107,8 +123,12 @@ public class Sistema {
     }
 
     // --- MÉTODOS DE CADASTRO COM VALIDAÇÃO DE REGRA DE NEGÓCIO ---
-
     public void cadastrarAluno(Aluno aluno) {
+
+        if (!aluno.validar()) {
+            return;
+        }
+
         // REGRA DO PDF: Validação para impedir CPFs duplicados
         for (Aluno a : alunos) {
             if (a.getCpf().equals(aluno.getCpf())) {
@@ -122,6 +142,10 @@ public class Sistema {
     }
 
     public void cadastrarProfessor(Professor professor) {
+        if (!professor.validar()) {
+            return;
+        }
+
         // REGRA DO PDF: Validação para impedir CPFs duplicados
         for (Professor p : professors) {
             if (p.getCpf().equals(professor.getCpf())) {
@@ -146,7 +170,6 @@ public class Sistema {
     }
 
     // --- MÉTODOS DE CONSULTA (Serão usados nos Relatórios) ---
-
     public List<Aluno> getAlunos() {
         return alunos;
     }

@@ -1,6 +1,8 @@
 package models;
 
-public class Aluno extends Pessoa {
+import interfaces.Cadastravel;
+
+public class Aluno extends Pessoa implements Cadastravel {
 
     private String matricula;
     private Curso curso; // Classe composta!
@@ -47,5 +49,27 @@ public class Aluno extends Pessoa {
     public String toString() {
         String nomeCurso = (curso != null) ? curso.getNomeCurso() : "Sem curso";
         return super.toString() + " | Matrícula: " + matricula + " | Curso: " + nomeCurso;
+    }
+
+    @Override
+    public boolean validar() {
+        if (getNome() == null || getNome().isEmpty()) {
+            System.out.println("Erro: Nome é obrigatório!");
+            return false;
+        }
+        if (getCpf() == null || getCpf().isEmpty()) {
+            System.out.println("Erro: CPF é obrigatório!");
+            return false;
+        }
+        if (matricula == null || matricula.isEmpty()) {
+            System.out.println("Erro: Matrícula é obrigatória!");
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String getId() {
+        return matricula; // matrícula é o identificador do aluno
     }
 }

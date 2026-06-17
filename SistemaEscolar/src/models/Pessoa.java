@@ -1,6 +1,6 @@
 package models;
 
-public abstract class Pessoa {
+public abstract class Pessoa{
 
     private String nome;
     private String cpf; // Trocado de idade para CPF, muito mais realista!

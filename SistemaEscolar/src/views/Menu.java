@@ -2,6 +2,8 @@ package views;
 
 import controllers.Sistema;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import models.Aluno;
 import models.Chamada;
@@ -10,6 +12,7 @@ import models.Professor;
 import models.Usuario;
 
 public class Menu {
+
     private Sistema sistema;
     private Scanner scanner;
 
@@ -67,9 +70,10 @@ public class Menu {
             System.out.println("2 - Cadastrar Professor");
             System.out.println("3 - Cadastrar Curso ");
             System.out.println("4 - Registrar Chamada Diária");
-            System.out.println("5 - Emitir Relatórios do Sistema");
+            System.out.println("5 - Emitir Relatórios de Chamada");
             System.out.println("6 - Consultar Aluno");
             System.out.println("7 - Alterar Aluno");
+            System.out.println("8 - Excluir Aluno");
             System.out.println("0 - Sair do Sistema");
             System.out.print("Escolha uma opção: ");
 
@@ -97,6 +101,9 @@ public class Menu {
                     case 7:
                         menuAlterarAluno();
                         break;
+                    case 8:
+                        excluirAluno();
+                        break;
                     case 0:
                         sistema.realizarLogout();
                         System.out.println("Obrigado por utilizar o sistema!");
@@ -121,18 +128,20 @@ public class Menu {
             System.out.print("Digite o nome: ");
             String nome = scanner.nextLine();
             Aluno aluno = sistema.buscarAlunoPorNome(nome);
-            if (aluno != null)
-                System.out.println(aluno);
-            else
+            if (aluno != null) {
+                System.out.println(aluno); 
+            } else {
                 System.out.println("Aluno não encontrado!");
+            }
         } else if (opcao == 2) {
             System.out.print("Digite a matrícula: ");
             String matricula = scanner.nextLine();
             Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
-            if (aluno != null)
-                System.out.println(aluno);
-            else
+            if (aluno != null) {
+                System.out.println(aluno); 
+            } else {
                 System.out.println("Aluno não encontrado!");
+            }
         }
     }
 
@@ -147,7 +156,7 @@ public class Menu {
         while (idade <= 0) {
             System.out.print("Idade: ");
             try {
-                idade = Integer.parseInt(scanner.nextLine());
+                idade = Integer.parseInt(scanner.nextLine()); // CORRIGIDO AQUI!
                 if (idade <= 0) {
                     System.out.println("Erro: A idade deve ser maior que zero.");
                 }
@@ -188,53 +197,75 @@ public class Menu {
         sistema.cadastrarAluno(aluno);
     }
 
-   private void menuAlterarAluno() {
-    System.out.println("\n--- ALTERAR ALUNO ---");
-    System.out.print("Digite a matrícula do aluno: ");
-    String matricula = scanner.nextLine();
+    private void menuAlterarAluno() {
+        System.out.println("\n--- ALTERAR ALUNO ---");
+        System.out.print("Digite a matrícula do aluno: ");
+        String matricula = scanner.nextLine();
 
-    Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
-    if (aluno == null) {
-        System.out.println("Aluno não encontrado!");
-        return;
+        Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
+        if (aluno == null) {
+            System.out.println("Aluno não encontrado!");
+            return;
+        }
+
+        System.out.println("Aluno encontrado: " + aluno);
+        System.out.println("\nO que deseja alterar?");
+        System.out.println("1 - Nome");
+        System.out.println("2 - Idade");
+        System.out.println("3 - Curso");
+        System.out.print("Escolha: ");
+        int opcao = Integer.parseInt(scanner.nextLine());
+
+        switch (opcao) {
+            case 1:
+                System.out.print("Novo nome: ");
+                String novoNome = scanner.nextLine();
+                sistema.alterarAluno(matricula, novoNome, aluno.getIdade(), aluno.getCurso());
+                break;
+            case 2:
+                System.out.print("Nova idade: ");
+                int novaIdade = Integer.parseInt(scanner.nextLine());
+                sistema.alterarAluno(matricula, aluno.getNome(), novaIdade, aluno.getCurso());
+                break;
+            case 3:
+                if (sistema.getCursos().isEmpty()) {
+                    System.out.println("Nenhum curso cadastrado!");
+                    return;
+                }
+                for (int i = 0; i < sistema.getCursos().size(); i++) {
+                    System.out.println(i + " - " + sistema.getCursos().get(i).getNomeCurso());
+                }
+                System.out.print("Escolha o curso: ");
+                int indiceCurso = Integer.parseInt(scanner.nextLine());
+                sistema.alterarAluno(matricula, aluno.getNome(), aluno.getIdade(), sistema.getCursos().get(indiceCurso));
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
     }
 
-    System.out.println("Aluno encontrado: " + aluno);
-    System.out.println("\nO que deseja alterar?");
-    System.out.println("1 - Nome");
-    System.out.println("2 - Idade");
-    System.out.println("3 - Curso");
-    System.out.print("Escolha: ");
-    int opcao = Integer.parseInt(scanner.nextLine());
+    private void excluirAluno() {
+        System.out.println("\n--- EXCLUIR ALUNO ---");
+        System.out.print("Digite a matrícula do aluno: ");
+        String matricula = scanner.nextLine();
 
-    switch (opcao) {
-        case 1:
-            System.out.print("Novo nome: ");
-            String novoNome = scanner.nextLine();
-            sistema.alterarAluno(matricula, novoNome, aluno.getIdade(), aluno.getCurso());
-            break;
-        case 2:
-            System.out.print("Nova idade: ");
-            int novaIdade = Integer.parseInt(scanner.nextLine());
-            sistema.alterarAluno(matricula, aluno.getNome(), novaIdade, aluno.getCurso());
-            break;
-        case 3:
-            // igual ao cadastro de aluno - lista os cursos e deixa escolher
-            if (sistema.getCursos().isEmpty()) {
-                System.out.println("Nenhum curso cadastrado!");
-                return;
-            }
-            for (int i = 0; i < sistema.getCursos().size(); i++) {
-                System.out.println(i + " - " + sistema.getCursos().get(i).getNomeCurso());
-            }
-            System.out.print("Escolha o curso: ");
-            int indiceCurso = Integer.parseInt(scanner.nextLine());
-            sistema.alterarAluno(matricula, aluno.getNome(), aluno.getIdade(), sistema.getCursos().get(indiceCurso));
-            break;
-        default:
-            System.out.println("Opção inválida!");
+        Aluno aluno = sistema.buscarAlunoPorMatricula(matricula);
+        if (aluno == null) {
+            System.out.println("Aluno não encontrado!");
+            return;
+        }
+
+        System.out.println("Aluno encontrado: " + aluno);
+        System.out.print("Tem certeza que deseja excluir? (S/N): ");
+        String confirmacao = scanner.nextLine();
+
+        if (confirmacao.equalsIgnoreCase("S")) {
+            sistema.excluirAluno(matricula);
+            System.out.println("Excluído com sucesso!");
+        } else {
+            System.out.println("Exclusão cancelada.");
+        }
     }
-}
 
     private void menuCadastrarProfessor() {
         System.out.println("\n--- CADASTRO DE PROFESSOR ---");
@@ -243,7 +274,6 @@ public class Menu {
         System.out.print("CPF: ");
         String cpf = scanner.nextLine();
 
-        // TRATAMENTO DE ERRO: Garante que a idade seja um número válido
         int idade = -1;
         while (idade <= 0) {
             System.out.print("Idade: ");
@@ -271,20 +301,14 @@ public class Menu {
             return;
         }
 
-        System.out.println("Escolha o Curso pelo número:");
-        for (int i = 0; i < sistema.getCursos().size(); i++) {
-            System.out.println(i + " - " + sistema.getCursos().get(i).getNomeCurso());
-        }
         System.out.print("Nome do Curso: ");
         String nomeCurso = scanner.nextLine();
 
         System.out.println("Escolha o Professor Responsável pelo número:");
         for (int i = 0; i < sistema.getProfessors().size(); i++) {
-            System.out.println(i + " - " + sistema.getProfessors().get(i).getNome());
+            System.out.println(i + " - " + sistema.getProfessors().get(i).getNome() + " (" + sistema.getProfessors().get(i).getDisciplina() + ")");
         }
 
-        // TRATAMENTO DE ERRO: Impede números inválidos ou letras ao escolher o
-        // professor
         int indiceProf = -1;
         while (indiceProf < 0 || indiceProf >= sistema.getProfessors().size()) {
             System.out.print("Digite o número do professor escolhido: ");
@@ -314,7 +338,6 @@ public class Menu {
 
         for (Aluno aluno : sistema.getAlunos()) {
             String resposta = "";
-            // TRATAMENTO DE ERRO: Força o usuário a digitar estritamente 'S' ou 'N'
             while (!resposta.equalsIgnoreCase("S") && !resposta.equalsIgnoreCase("N")) {
                 System.out.print("O aluno " + aluno.getNome() + " está presente? (S/N): ");
                 resposta = scanner.nextLine();
@@ -337,23 +360,26 @@ public class Menu {
         System.out.println("        RELATÓRIOS DO SISTEMA          ");
         System.out.println("=======================================");
 
-        System.out.println("\n[Lista de Alunos Cadastrados]");
-        if (sistema.getAlunos().isEmpty())
-            System.out.println("Nenhum aluno cadastrado.");
-        for (Aluno a : sistema.getAlunos()) {
-            a.gerarRelatorio();
-        }
+        // Polimorfismo Explícito usando a Superclasse comum (Pessoa)
+        List<models.Pessoa> comunidadeEscolar = new ArrayList<>();
+        
+        comunidadeEscolar.addAll(sistema.getAlunos());
+        comunidadeEscolar.addAll(sistema.getProfessors());
 
-        System.out.println("\n[Lista de Professores Cadastrados]");
-        if (sistema.getProfessors().isEmpty())
-            System.out.println("Nenhum professor cadastrado.");
-        for (Professor p : sistema.getProfessors()) {
-            p.gerarRelatorio();
+        System.out.println("\n[Lista de Pessoas Cadastradas (Alunos e Professores)]");
+        if (comunidadeEscolar.isEmpty()) {
+            System.out.println("Nenhuma pessoa cadastrada no sistema.");
+        } else {
+            for (models.Pessoa p : comunidadeEscolar) {
+                p.gerarRelatorio();
+                System.out.println("---------------------------------------");
+            }
         }
 
         System.out.println("\n[Histórico de Chamadas Realizadas]");
-        if (sistema.getChamadas().isEmpty())
+        if (sistema.getChamadas().isEmpty()) {
             System.out.println("Nenhuma chamada realizada.");
+        }
         for (Chamada c : sistema.getChamadas()) {
             System.out.println(c.toString());
         }

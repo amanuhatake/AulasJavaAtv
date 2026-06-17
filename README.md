@@ -68,9 +68,3 @@ Os códigos foram desenvolvidos durante o estudo de conceitos como:
 
 ---
 
-o que falta fazer: 
-
-❌ Alteração de registros - Manu
-❌ Exclusão de registros - Manu
-❌ Polimorfismo explícito - Albertini
-❌ Interface - Albertini

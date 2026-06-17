@@ -1,0 +1,28 @@
+# Sistema de Gestão Escolar — Programação Orientada a Objetos (POO)
+
+Este repositório contém a aplicação completa do Sistema de Gestão Escolar, desenvolvida na linguagem Java para execução via terminal. O projeto foi construído como trabalho final para a disciplina de Desenvolvimento de Software, com o objetivo de implementar de forma integrada todas as diretrizes e regras de negócio exigidas no escopo do projeto acadêmico.
+
+---
+
+## 📂 Estrutura de Pastas e Organização do Projeto
+
+A arquitetura do sistema foi organizada de forma limpa em pacotes, garantindo a legibilidade do código, o desacoplamento e a separação de responsabilidades em conformidade com as boas práticas de orientação a objetos:
+
+```text
+SistemaEscolar/
+└── src/
+    ├── controllers/
+    │   ├── GerenciadorArquivos.java  # Classe utilitária focada estritamente nas operações de File I/O (leitura/escrita)
+    │   └── Sistema.java             # Centraliza as listas em memória e gerencia as regras de negócio do software
+    ├── interfaces/
+    │   └── Cadastravel.java         # Interface reguladora que padroniza as operações obrigatórias de identificação e validação
+    ├── models/
+    │   ├── Pessoa.java              # Superclasse abstrata que unifica os atributos e comportamentos comuns
+    │   ├── Aluno.java               # Subclasse especializada que estende Pessoa (Herança)
+    │   ├── Professor.java           # Subclasse especializada que estende Pessoa (Herança)
+    │   ├── Curso.java               # Entidade composta que vincula turmas a professores (Composição)
+    │   ├── Chamada.java             # Entidade focada no mapeamento diário de frequências
+    │   └── Usuario.java             # Modelo destinado a armazenar credenciais, estados e históricos de logins
+    ├── views/
+    │   └── Menu.java                # Interface textual que controla as telas e processa as entradas do terminal
+    └── Main.java                    # Ponto de entrada (Bootstrap) responsável por inicializar a aplicação

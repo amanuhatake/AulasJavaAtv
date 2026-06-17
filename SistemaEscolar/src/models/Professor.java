@@ -1,6 +1,9 @@
 package models;
 
-public class Professor extends Pessoa {
+import interfaces.Cadastravel;
+
+public class Professor extends Pessoa implements Cadastravel {
+
     private String disciplina;
 
     // Construtor atualizado passando os três parâmetros para a classe mãe (Pessoa)
@@ -30,5 +33,23 @@ public class Professor extends Pessoa {
     @Override
     public String toString() {
         return super.toString() + " | Disciplina: " + disciplina;
+    }
+
+    @Override
+    public boolean validar() {
+        if (getNome() == null || getNome().isEmpty()) {
+            System.out.println("Erro: Nome é obrigatório!");
+            return false;
+        }
+        if (getCpf() == null || getCpf().isEmpty()) {
+            System.out.println("Erro: CPF é obrigatório!");
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String getId() {
+        return getCpf(); // CPF é o identificador do professor
     }
 }
